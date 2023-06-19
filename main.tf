@@ -6,3 +6,9 @@ terraform {
 output "hello_world" {
   value = "Hello, World!"
 }
+
+resource "null_resource" "null" {
+  triggers = {
+    value = timestamp()
+  }
+}
