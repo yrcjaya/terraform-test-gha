@@ -1,4 +1,4 @@
-name: terraform PR
+name: setup-terraform PR
 on:
   workflow_dispatch:
 
