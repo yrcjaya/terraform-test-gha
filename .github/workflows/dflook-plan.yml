@@ -1,34 +1,36 @@
-name: Create terraform plan
+name: Create terraform plan for Identity Center
 
 on:
   workflow_dispatch:
   pull_request:
+    branches: ["main"]
 
 permissions:
   contents: read
   pull-requests: write
 
+env:
+  TERRAFORM_FILES_PATH: .
+
 jobs:
   plan:
     runs-on: ubuntu-latest
-    name: Create a plan for Identity Center
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: terraform validate
-        uses: dflook/terraform-validate@v1
-        with:
-          path: .
+      - uses: actions/checkout@v3
 
       - name: terraform fmt
         uses: dflook/terraform-fmt-check@v1
         with:
-          path: .
+          path: ${{env.TERRAFORM_FILES_PATH}}
+
+      - name: terraform validate
+        uses: dflook/terraform-validate@v1
+        with:
+          path: ${{env.TERRAFORM_FILES_PATH}}
 
       - name: terraform plan
         uses: dflook/terraform-plan@v1
         with:
-          path: .
+          path: ${{env.TERRAFORM_FILES_PATH}}
