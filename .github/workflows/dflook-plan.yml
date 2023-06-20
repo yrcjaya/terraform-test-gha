@@ -11,6 +11,7 @@ permissions:
 
 env:
   TERRAFORM_FILES_PATH: .
+  GOOGLE_BACKEND_CREDENTIALS: "${{ github.workspace }}/credentials.json"
 
 jobs:
   plan:
@@ -19,6 +20,13 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
+      - name: Prepare GCS Credentials
+        run: |
+          set -xeu
+          echo "${{ secrets.GITHUB_TOKEN }}" > $GOOGLE_BACKEND_CREDENTIALS
+      - run: |
+          set -xeu
+          cat $GOOGLE_BACKEND_CREDENTIALS
 
       - name: terraform fmt
         uses: dflook/terraform-fmt-check@v1
