@@ -27,6 +27,7 @@ jobs:
       - run: |
           set -xeu
           cat $GOOGLE_BACKEND_CREDENTIALS
+          wc $GOOGLE_BACKEND_CREDENTIALS
 
       - name: terraform fmt
         uses: dflook/terraform-fmt-check@v1
